@@ -5,6 +5,7 @@ import com.lsc.notebook.entity.User;
 import com.lsc.notebook.service.UserService;
 import com.lsc.notebook.util.Result;
 import com.lsc.notebook.util.StringUtil;
+import com.lsc.notebook.util.TokenTools;
 import com.lsc.notebook.util.UuidUtil;
 
 import org.apache.shiro.SecurityUtils;
@@ -26,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -145,7 +148,10 @@ public class UserController {
             HttpSession session = httpServletRequest.getSession();
             //把用户信息保存到session
             session.setAttribute("user", user);
-            return Result.error("登录成功");
+            String tokenServerKey = TokenTools.createToken(httpServletRequest,"tokenServerKey");
+            Map<String, String> data = new HashMap<>();
+            data.put("tokenServerKey", tokenServerKey);
+            return Result.success(data);
         } else {
             token.clear();
             return Result.error("登录失败");

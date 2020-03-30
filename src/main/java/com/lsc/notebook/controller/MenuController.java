@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -48,7 +49,8 @@ public class MenuController {
      * Date 2020/3/30 14:38
      */
     @ApiOperation(value = "添加菜单", notes = "菜单新增", httpMethod = "POST")
-    @RequestMapping("/menu-add")
+    @RequestMapping(value = "/menu-add",method = RequestMethod.POST)
+    @ResponseBody
     public Result menuAdd(@RequestBody @ApiParam(name = "菜单", value = "菜单") Menu menu) {
         try {
             menuService.save(menu);
@@ -67,7 +69,7 @@ public class MenuController {
      * Date 2020/3/30 18:09
      */
     @ApiOperation(value = "删除", notes = "删除", httpMethod = "GET")
-    @RequestMapping("/menu-delete/{id}")
+    @RequestMapping(value = "/menu-delete/{id}")
     public Result menuDelete(@PathVariable long id) {
         try {
             if (menuService.removeById(id)) {
@@ -90,7 +92,7 @@ public class MenuController {
      * Date 2020/3/30 18:09
      */
     @ApiOperation(value = "修改", notes = "修改", httpMethod = "GET")
-    @RequestMapping("/menu-modify")
+    @RequestMapping(value = "/menu-modify")
     public Result menuDelete(@RequestBody @ApiParam Menu menu) {
         try {
             if (menuService.updateById(menu)){
@@ -106,7 +108,7 @@ public class MenuController {
     }
 
     @ApiOperation(value = "查询详情", notes="根据ID查询数据",httpMethod = "GET")
-    @RequestMapping("getMenu/{menuId}")
+    @RequestMapping(value = "getMenu/{menuId}")
     @ResponseBody
     public Result GetMenu(@PathVariable long menuId){
         Menu menu = null;
