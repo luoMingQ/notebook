@@ -1,7 +1,6 @@
 package com.lsc.notebook.controller;
 
 
-import com.baomidou.mybatisplus.generator.config.TemplateConfig;
 import com.lsc.notebook.entity.Menu;
 import com.lsc.notebook.service.MenuService;
 import com.lsc.notebook.util.Result;
@@ -39,8 +38,7 @@ public class MenuController {
     private Logger logger = LoggerFactory.getLogger(MenuController.class);
     @Resource
     private MenuService menuService;
-    TemplateConfig templateConfig = new TemplateConfig()
-            .setEntity("Menu.java");
+
 
     /**
      * 新增菜单

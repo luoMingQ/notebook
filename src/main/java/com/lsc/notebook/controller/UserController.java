@@ -49,10 +49,10 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @ApiOperation(value = "查询详情列表", notes="查询数据",httpMethod = "GET")
-    @RequestMapping("/getUsers")
+    @ApiOperation(value = "查询详情列表", notes="查询数据",httpMethod = "POST")
+    @RequestMapping(value = "/getUsers",method = RequestMethod.POST)
     @ResponseBody
-    public Result testMybatisPlus(User user) {
+    public Result testMybatisPlus(@RequestBody @ApiParam(name="用户对象",value="用户对象")User user) {
         QueryWrapper<User> ew = new QueryWrapper<>();
         //ew.like("name" , "318");
         ew.eq("name", user.getName());
