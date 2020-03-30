@@ -1,0 +1,19 @@
+server:
+  port: 8088
+
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/notebook?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.lsc.notebook.entity
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
