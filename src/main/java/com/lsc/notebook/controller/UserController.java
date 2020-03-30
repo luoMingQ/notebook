@@ -1,5 +1,6 @@
 package com.lsc.notebook.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lsc.notebook.entity.User;
 import com.lsc.notebook.service.UserService;
 import com.lsc.notebook.util.Result;
@@ -14,6 +15,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +49,17 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @ApiOperation(value = "查询详情列表", notes="查询数据",httpMethod = "GET")
+    @RequestMapping("/getUsers")
+    @ResponseBody
+    public Result testMybatisPlus(User user) {
+        QueryWrapper<User> ew = new QueryWrapper<>();
+        //ew.like("name" , "318");
+        ew.eq("name", user.getName());
+        List<User> users = userService.list(ew);
+        return Result.success(users);
+    }
+
     /**
      * 查询
      * return
@@ -51,7 +68,6 @@ public class UserController {
      * Date 2020/3/29 16:23
      */
     @ApiOperation(value = "查询详情", notes="根据ID查询数据",httpMethod = "GET")
-
     @RequestMapping("getUser/{userId}")
     @ResponseBody
     public Result GetUser(@PathVariable long userId){
@@ -98,30 +114,41 @@ public class UserController {
     @ApiOperation(value = "登录", notes="登录",httpMethod = "POST")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public Result login(@RequestParam("username") String username, @RequestParam("password") String password,HttpServletRequest request) {
+        User user = userService.login(username);
+        if (user != null) {
+            password = StringUtil.StringInMd5(password + user.getSalt());
+        } else {
+            return Result.error("未知账户");
+        }
         // 从SecurityUtils里边创建一个 subject
         Subject subject = SecurityUtils.getSubject();
+
         // 在认证提交前准备 token（令牌）
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         // 执行认证登陆
         try {
             subject.login(token);
         } catch (UnknownAccountException uae) {
-            return "未知账户";
+            return Result.error("未知账户");
         } catch (IncorrectCredentialsException ice) {
-            return "密码不正确";
+            return Result.error("密码不正确");
         } catch (LockedAccountException lae) {
-            return "账户已锁定";
+            return Result.error("账户已锁定");
         } catch (ExcessiveAttemptsException eae) {
-            return "用户名或密码错误次数过多";
+            return Result.error("用户名或密码错误次数过多");
         } catch (AuthenticationException ae) {
-            return "用户名或密码不正确！";
+            return Result.error("用户名或密码不正确！");
         }
         if (subject.isAuthenticated()) {
-            return "登录成功";
+            HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
+            HttpSession session = httpServletRequest.getSession();
+            //把用户信息保存到session
+            session.setAttribute("user", user);
+            return Result.error("登录成功");
         } else {
             token.clear();
-            return "登录失败";
+            return Result.error("登录失败");
         }
     }
 }

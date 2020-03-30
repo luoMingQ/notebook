@@ -22,6 +22,6 @@
     </insert>
 
     <select id="login" resultType="com.lsc.notebook.entity.User" parameterType="String">
-    select * from `user` where user_id = #{username}
+    select * from `user` where username = #{username}
 </select>
 </mapper>

@@ -27,6 +27,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public User login(String username) {
-        return userMapper.login(username);
+        User user = userMapper.login(username);
+        return user;
     }
 }

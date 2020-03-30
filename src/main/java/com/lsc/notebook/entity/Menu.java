@@ -3,15 +3,18 @@ package com.lsc.notebook.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author luosc
- * @since 2020-03-29
+ * @since 2020-03-30
  */
+@ApiModel(value="Menu对象", description="")
 public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,7 +22,7 @@ public class Menu implements Serializable {
     @TableId(value = "menu_id", type = IdType.AUTO)
     private Long menuId;
 
-    private Long patientMenuId;
+    private Long parentMenuId;
 
     private String menuName;
 
@@ -34,12 +37,12 @@ public class Menu implements Serializable {
         this.menuId = menuId;
     }
 
-    public Long getPatientMenuId() {
-        return patientMenuId;
+    public Long getParentMenuId() {
+        return parentMenuId;
     }
 
-    public void setPatientMenuId(Long patientMenuId) {
-        this.patientMenuId = patientMenuId;
+    public void setParentMenuId(Long parentMenuId) {
+        this.parentMenuId = parentMenuId;
     }
 
     public String getMenuName() {
@@ -61,10 +64,10 @@ public class Menu implements Serializable {
     @Override
     public String toString() {
         return "Menu{" +
-        "menuId=" + menuId +
-        ", patientMenuId=" + patientMenuId +
-        ", menuName=" + menuName +
-        ", menuUrl=" + menuUrl +
-        "}";
+                "menuId=" + menuId +
+                ", parentMenuId=" + parentMenuId +
+                ", menuName=" + menuName +
+                ", menuUrl=" + menuUrl +
+                "}";
     }
 }

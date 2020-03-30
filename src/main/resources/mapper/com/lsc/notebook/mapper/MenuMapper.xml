@@ -5,14 +5,16 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lsc.notebook.entity.Menu">
         <id column="menu_id" property="menuId" />
-        <result column="patient_menu_id" property="patientMenuId" />
+        <result column="parent_menu_id" property="parentMenuId" />
         <result column="menu_name" property="menuName" />
         <result column="menu_url" property="menuUrl" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        menu_id, patient_menu_id, menu_name, menu_url
+        menu_id, parent_menu_id, menu_name, menu_url
     </sql>
-
+    <!--<insert id="insert" parameterType="com.lsc.notebook.entity.Menu">-->
+        <!--INSERT INTO menu(parent_menu_id,menu_name,menu_url) VALUES (#{parentMenuId},#{menuName},#{menuUrl}) -->
+    <!--</insert>-->
 </mapper>

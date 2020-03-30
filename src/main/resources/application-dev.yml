@@ -8,12 +8,12 @@ spring:
     url: jdbc:mysql://localhost:3306/notebook?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
 
 mybatis:
-  mapper-locations: classpath:mapper/*Mapper.xml
+  mapper-locations: classpath:dao/*Mapper.xml
   type-aliases-package: com.lsc.notebook.entity
+  configuration:
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 #showSql
 logging:
   level:
-    com:
-      example:
-        mapper : debug
+    mapper: DEBUG

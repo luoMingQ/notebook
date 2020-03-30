@@ -40,15 +40,10 @@ public class CustomRealm extends AuthorizingRealm {
         return info;
     }
 
-    /**
-     * 这里可以注入userService,为了方便演示，我就写死了帐号了密码
-     * private UserService userService;
-     * <p>
-     * 获取即将需要认证的信息
-     */
+
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        System.out.println("-------身份认证方法--------");
+        //System.out.println("-------身份认证方法--------");
         String userName = (String) authenticationToken.getPrincipal();
         String userPwd = new String((char[]) authenticationToken.getCredentials());
 
@@ -57,9 +52,7 @@ public class CustomRealm extends AuthorizingRealm {
         } else {
             User user = userService.login(userName);
             String dbpassword = user.getPassword();
-            String salt = user.getSalt();
-            userPwd = StringUtil.StringInMd5(userPwd + salt);
-            if (userPwd.equals(dbpassword)) {
+            if (!userPwd.equals(dbpassword)) {
                 throw new AccountException("密码不正确");
             }
         }
