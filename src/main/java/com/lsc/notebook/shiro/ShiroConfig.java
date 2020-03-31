@@ -21,7 +21,7 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         shiroFilterFactoryBean.setLoginUrl("/user/login");
-        shiroFilterFactoryBean.setLoginUrl("/swagger-ui.html");
+        //shiroFilterFactoryBean.setLoginUrl("/swagger-ui.html");
         shiroFilterFactoryBean.setSuccessUrl("/");
         shiroFilterFactoryBean.setUnauthorizedUrl("/user/login");
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
@@ -45,7 +45,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/user/**", "anon");
         filterChainDefinitionMap.put("/admin/**", "authc");
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截 剩余的都需要认证
-        filterChainDefinitionMap.put("/**", "anon");
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
 

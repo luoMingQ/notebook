@@ -114,8 +114,8 @@ public class UserController {
      * param 
      * Date 2020/3/30 12:26
      */
-    @ApiOperation(value = "登录", notes="登录",httpMethod = "POST")
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ApiOperation(value = "登录", notes="登录",httpMethod = "GET")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseBody
     public Result login(@RequestParam("username") String username, @RequestParam("password") String password,HttpServletRequest request) {
         User user = userService.login(username);
@@ -151,6 +151,8 @@ public class UserController {
             String tokenServerKey = TokenTools.createToken(httpServletRequest,"tokenServerKey");
             Map<String, String> data = new HashMap<>();
             data.put("tokenServerKey", tokenServerKey);
+
+            System.out.println(session.getAttribute("tokenServerKey"));
             return Result.success(data);
         } else {
             token.clear();

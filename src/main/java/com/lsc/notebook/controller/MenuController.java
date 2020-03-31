@@ -131,7 +131,9 @@ public class MenuController {
         //ew.like("name" , "318");
         //ew.eq("数据库字段名", menu.getMenuName());
         //ew.eq("menu_name", menu.getMenuName());
-        ew.like("menu_name", menu.getMenuName());
+        if (menu != null) {
+            ew.like("menu_name", menu.getMenuName());
+        }
         try {
             List<Menu> list= menuService.list(ew);
             return Result.success(list);

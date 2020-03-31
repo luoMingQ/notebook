@@ -1,11 +1,19 @@
 server:
   port: 8088
 
+
 spring:
+  redis:
+      database: 0
+      host: 127.0.0.1
+      port: 6379
   datasource:
     url: jdbc:mysql://localhost:3306/notebook?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     username: root
     password: root
+  session:
+    store-type: redis
+
 
 mybatis:
   mapper-locations: classpath:com.lsc.notebook.mapper/*Mapper.xml
@@ -17,3 +25,7 @@ mybatis:
 logging:
   level:
     mapper: DEBUG
+
+#文件下载地址
+download:
+  filePath: D://files/
