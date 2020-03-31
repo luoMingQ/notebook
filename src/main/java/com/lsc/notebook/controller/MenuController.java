@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
@@ -113,10 +114,11 @@ public class MenuController {
     @ApiOperation(value = "查询详情", notes="根据ID查询数据",httpMethod = "GET")
     @RequestMapping(value = "getMenu/{menuId}")
     @ResponseBody
-    public Result getMenu(@PathVariable long menuId){
+    public Result getMenu(HttpServletRequest request,@PathVariable long menuId){
         Menu menu = null;
         try {
             menu = menuService.getById(menuId);
+            System.out.println(request.getSession().getAttribute("tokenServerKey"));
             return Result.success(menu);
         } catch (Exception e) {
             logger.error(e.getMessage());
