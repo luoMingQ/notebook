@@ -1,6 +1,7 @@
 package com.lsc.notebook.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lsc.notebook.entity.Menu;
 import com.lsc.notebook.service.MenuService;
 import com.lsc.notebook.util.Result;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import java.sql.Wrapper;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -91,16 +94,16 @@ public class MenuController {
      * param
      * Date 2020/3/30 18:09
      */
-    @ApiOperation(value = "修改", notes = "修改", httpMethod = "GET")
-    @RequestMapping(value = "/menu-modify")
+    @ApiOperation(value = "修改", notes = "修改", httpMethod = "POST")
+    @RequestMapping(value = "/menu-modify",method = RequestMethod.POST)
+    @ResponseBody
     public Result menuDelete(@RequestBody @ApiParam Menu menu) {
         try {
             if (menuService.updateById(menu)){
                 return Result.success();
             }else{
-                return Result.error("删除失败");
+                return Result.error("修改失败");
             }
-
         } catch (Exception e) {
             logger.error(e.getMessage());
             return Result.error(e.getMessage());
@@ -110,20 +113,32 @@ public class MenuController {
     @ApiOperation(value = "查询详情", notes="根据ID查询数据",httpMethod = "GET")
     @RequestMapping(value = "getMenu/{menuId}")
     @ResponseBody
-    public Result GetMenu(@PathVariable long menuId){
+    public Result getMenu(@PathVariable long menuId){
         Menu menu = null;
         try {
             menu = menuService.getById(menuId);
-            if (menu != null) {
-                menu.setMenuId(menuId);
-            }
             return Result.success(menu);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return Result.error(e.getMessage());
         }
-
-
+    }
+    @ApiOperation(value = "查询列表", notes="根据ID查询数据",httpMethod = "POST")
+    @RequestMapping(value = "getMenus",method = RequestMethod.POST)
+    @ResponseBody
+    public Result list(@RequestBody @ApiParam(name="用户对象",value="用户对象")Menu menu) {
+        QueryWrapper<Menu> ew = new QueryWrapper<>();
+        //ew.like("name" , "318");
+        //ew.eq("数据库字段名", menu.getMenuName());
+        //ew.eq("menu_name", menu.getMenuName());
+        ew.like("menu_name", menu.getMenuName());
+        try {
+            List<Menu> list= menuService.list(ew);
+            return Result.success(list);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return Result.error(e.getMessage());
+        }
     }
 }
 

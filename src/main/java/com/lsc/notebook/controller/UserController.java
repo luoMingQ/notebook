@@ -73,7 +73,7 @@ public class UserController {
     @ApiOperation(value = "查询详情", notes="根据ID查询数据",httpMethod = "GET")
     @RequestMapping("getUser/{userId}")
     @ResponseBody
-    public Result GetUser(@PathVariable long userId){
+    public Result getUser(@PathVariable long userId){
         User user = null;
         try {
             user = userService.getById(userId);
