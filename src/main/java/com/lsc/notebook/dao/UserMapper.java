@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @Description:
  * @Date:created in 15:05 2020/3/29
  */
-@Mapper
+//@Mapper
 public interface UserMapper  extends BaseMapper<User> {
     User login(String username);
 

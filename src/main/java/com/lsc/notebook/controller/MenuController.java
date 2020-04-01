@@ -4,6 +4,8 @@ package com.lsc.notebook.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lsc.notebook.entity.Menu;
 import com.lsc.notebook.service.MenuService;
+import com.lsc.notebook.service.impl.MenuServiceImpl;
+import com.lsc.notebook.util.ControllerUtil;
 import com.lsc.notebook.util.Result;
 
 import org.slf4j.Logger;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import java.sql.Wrapper;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -39,8 +42,7 @@ import io.swagger.annotations.ApiParam;
 @Api(description = "菜单管理")
 @Controller
 @RequestMapping("/menu")
-public class MenuController {
-    private Logger logger = LoggerFactory.getLogger(MenuController.class);
+public class MenuController extends BaseController{
     @Resource
     private MenuService menuService;
 
@@ -56,13 +58,7 @@ public class MenuController {
     @RequestMapping(value = "/menu-add",method = RequestMethod.POST)
     @ResponseBody
     public Result menuAdd(@RequestBody @ApiParam(name = "菜单", value = "菜单") Menu menu) {
-        try {
-            menuService.save(menu);
-            return Result.success();
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return Result.error(e.getMessage());
-        }
+        return ControllerUtil.add( menuService,menu, logger);
     }
 
     /**
@@ -74,18 +70,9 @@ public class MenuController {
      */
     @ApiOperation(value = "删除", notes = "删除", httpMethod = "GET")
     @RequestMapping(value = "/menu-delete/{id}")
+    @ResponseBody
     public Result menuDelete(@PathVariable long id) {
-        try {
-            if (menuService.removeById(id)) {
-                return Result.success();
-            } else {
-                return Result.error("删除失败");
-            }
-
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return Result.error(e.getMessage());
-        }
+        return ControllerUtil.deleteById(menuService, id, logger);
     }
 
     /**
@@ -98,35 +85,19 @@ public class MenuController {
     @ApiOperation(value = "修改", notes = "修改", httpMethod = "POST")
     @RequestMapping(value = "/menu-modify",method = RequestMethod.POST)
     @ResponseBody
-    public Result menuDelete(@RequestBody @ApiParam Menu menu) {
-        try {
-            if (menuService.updateById(menu)){
-                return Result.success();
-            }else{
-                return Result.error("修改失败");
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return Result.error(e.getMessage());
-        }
+    public Result menuModify(@RequestBody @ApiParam Menu menu) {
+        return ControllerUtil.modify(menuService, menu, logger);
     }
 
     @ApiOperation(value = "查询详情", notes="根据ID查询数据",httpMethod = "GET")
-    @RequestMapping(value = "getMenu/{menuId}")
+    @RequestMapping(value = "get-menu/{menuId}")
     @ResponseBody
-    public Result getMenu(HttpServletRequest request,@PathVariable long menuId){
-        Menu menu = null;
-        try {
-            menu = menuService.getById(menuId);
-            System.out.println(request.getSession().getAttribute("tokenServerKey"));
-            return Result.success(menu);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return Result.error(e.getMessage());
-        }
+    public Result getMenu(@PathVariable long menuId){
+        return ControllerUtil.findById(menuService, menuId, logger);
     }
+
     @ApiOperation(value = "查询列表", notes="根据ID查询数据",httpMethod = "POST")
-    @RequestMapping(value = "getMenus",method = RequestMethod.POST)
+    @RequestMapping(value = "get-menus",method = RequestMethod.POST)
     @ResponseBody
     public Result list(@RequestBody @ApiParam(name="用户对象",value="用户对象")Menu menu) {
         QueryWrapper<Menu> ew = new QueryWrapper<>();
@@ -136,13 +107,21 @@ public class MenuController {
         if (menu != null) {
             ew.like("menu_name", menu.getMenuName());
         }
-        try {
-            List<Menu> list= menuService.list(ew);
-            return Result.success(list);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return Result.error(e.getMessage());
+        return ControllerUtil.listAll(menuService, ew, logger);
+    }
+
+    @ApiOperation(value = "查询列表分页", notes="根据ID查询数据",httpMethod = "POST")
+    @RequestMapping(value = "/menus-page",method = RequestMethod.POST)
+    @ResponseBody
+    public Result listPage(@RequestBody @ApiParam(name="用户对象",value="用户对象")Menu menu) {
+        QueryWrapper<Menu> ew = new QueryWrapper<>();
+        //ew.like("name" , "318");
+        //ew.eq("数据库字段名", menu.getMenuName());
+        //ew.eq("menu_name", menu.getMenuName());
+        if (menu != null) {
+            ew.like("menu_name", menu.getMenuName());
         }
+        return ControllerUtil.listAll(menuService, ew, logger);
     }
 }
 

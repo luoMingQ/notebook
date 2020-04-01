@@ -1,28 +1,12 @@
 package com.lsc.notebook.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
-
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.FileOutConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
-import com.baomidou.mybatisplus.generator.config.TemplateConfig;
-import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
-import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.baomidou.mybatisplus.generator.engine.BeetlTemplateEngine;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: luosc
@@ -53,7 +37,7 @@ public class MpHelper {
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig.setCapitalMode(true)
                 .setNaming(NamingStrategy.underline_to_camel)
-                .setInclude(new String[]{"menu"}); // 生成的表,可同时传入多个表名
+                .setInclude(new String[]{"role"}); // 生成的表,可同时传入多个表名
 
         //包名策略配置
         PackageConfig packageConfig = new PackageConfig();

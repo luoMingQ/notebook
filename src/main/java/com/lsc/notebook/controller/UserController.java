@@ -3,6 +3,7 @@ package com.lsc.notebook.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lsc.notebook.entity.User;
 import com.lsc.notebook.service.UserService;
+import com.lsc.notebook.util.ControllerUtil;
 import com.lsc.notebook.util.Result;
 import com.lsc.notebook.util.StringUtil;
 import com.lsc.notebook.util.TokenTools;
@@ -17,8 +18,6 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +46,7 @@ import io.swagger.annotations.ApiParam;
 @Api(description = "账号管理")
 @RestController
 @RequestMapping("/user")
-public class UserController {
-    private Logger logger = LoggerFactory.getLogger(UserController.class);
+public class UserController  extends BaseController{
     @Resource
     private UserService userService;
 
@@ -74,19 +72,7 @@ public class UserController {
     @RequestMapping("getUser/{userId}")
     @ResponseBody
     public Result getUser(@PathVariable long userId){
-        User user = null;
-        try {
-            user = userService.getById(userId);
-            if (user != null) {
-                user.setUserId(userId);
-            }
-            return Result.success(user);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return Result.error(e.getMessage());
-        }
-
-
+        return ControllerUtil.findById(userService, userId, logger);
     }
 
     @ApiOperation(value = "注册", notes="注册",httpMethod = "POST")
