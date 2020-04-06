@@ -1,11 +1,10 @@
 package com.lsc.notebook.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lsc.notebook.entity.Menu;
-
 import org.slf4j.Logger;
-
 import java.util.List;
 
 /**
@@ -101,6 +100,24 @@ public class ControllerUtil {
         try {
             List<Menu> list= service.list(queryWrapper);
             return Result.success(list);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return Result.error(e.getMessage());
+        }
+    }
+
+
+    /**
+     *
+     * return
+     * Author luosc
+     * param
+     * Date 2020/4/1 15:26
+     */
+    public static Result pageList(IService service, IPage page, QueryWrapper queryWrapper, Logger logger) {
+        try {
+            page= service.page(page,queryWrapper);
+            return Result.success(page);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return Result.error(e.getMessage());

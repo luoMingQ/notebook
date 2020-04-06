@@ -1,5 +1,7 @@
 package com.lsc.notebook.util;
 
+import org.springframework.util.StringUtils;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -56,5 +58,27 @@ public class StringUtil {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * 判断字符串是否为空
+     * return
+     * Author luosc
+     * param
+     * Date 2020/4/6 16:33
+     */
+    public static boolean isEmpty(String patam) {
+        return StringUtils.isEmpty(patam);
+    }
+
+    /**
+     * 判断字符串是否非空
+     * return
+     * Author luosc
+     * param
+     * Date 2020/4/6 16:34
+     */
+    public static boolean isNotEmpty(String patam) {
+        return !isEmpty(patam);
     }
 }

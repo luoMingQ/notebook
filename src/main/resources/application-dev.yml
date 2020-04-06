@@ -15,12 +15,10 @@ spring:
     store-type: redis
 
 
-mybatis:
-  mapper-locations: classpath:com.lsc.notebook.mapper/*Mapper.xml
-  type-aliases-package: com.lsc.notebook.entity
+mybatis-plus:
   configuration:
-      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:com/lsc/notebook/mapper/*.xml
 #showSql
 logging:
   level:

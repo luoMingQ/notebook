@@ -37,7 +37,7 @@ public class MpHelper {
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig.setCapitalMode(true)
                 .setNaming(NamingStrategy.underline_to_camel)
-                .setInclude(new String[]{"role"}); // 生成的表,可同时传入多个表名
+                .setInclude(new String[]{"role_menu"}); // 生成的表,可同时传入多个表名
 
         //包名策略配置
         PackageConfig packageConfig = new PackageConfig();
