@@ -2,6 +2,8 @@ package com.lsc.notebook.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.lsc.notebook.util.Lt;
+
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,6 +21,7 @@ public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Lt
     @TableId(value = "menu_id", type = IdType.AUTO)
     private Long menuId;
 

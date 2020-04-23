@@ -98,7 +98,7 @@ public class MenuController extends BaseController{
         if (menu != null) {
             ew.like("menu_name", menu.getMenuName());
         }
-        return ControllerUtil.listAll(menuService, ew, logger);
+        return ControllerUtil.listAll(menuService, menu,ew, logger);
     }
 
     /**
@@ -121,13 +121,13 @@ public class MenuController extends BaseController{
         //ew.like("name" , "318");
         //ew.eq("数据库字段名", menu.getMenuName());
         //ew.eq("menu_name", menu.getMenuName());
-        if (param != null) {
-            if ( param.getMenuId()!=null&&param.getMenuId() > 0) {
-                ew.lt(true, "menu_id", param.getMenuId());//查询ID小于多少
-            }
-            page.getRecords().clear();
-            ew.like("menu_name", param.getMenuName());
-        }
+//        if (param != null) {
+//            if ( param.getMenuId()!=null&&param.getMenuId() > 0) {
+//                ew.lt(true, "menu_id", param.getMenuId());//查询ID小于多少
+//            }
+//            page.getRecords().clear();
+//            ew.like("menu_name", param.getMenuName());
+//        }
         return ControllerUtil.pageList(menuService,page, ew, logger);
 
     }
