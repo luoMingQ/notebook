@@ -15,8 +15,8 @@ public class TokenTools {
      * @param request
      * @param tokenServerkey
      */
-    public static String createToken(HttpServletRequest request, String tokenServerkey){
-        String token = TokenProccessor.getInstance().makeToken();
+    public static String createToken(HttpServletRequest request, String tokenServerkey,String userId,String userName) throws Exception{
+        String token = TokenProccessor.getInstance().makeToken(userId,userName);
         request.getSession().setAttribute(tokenServerkey, token);
         return token;
     }

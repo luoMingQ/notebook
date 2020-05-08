@@ -1,6 +1,8 @@
 server:
   port: 8088
-
+  servlet:
+    session:
+      timeout: 3600s
 
 spring:
   redis:

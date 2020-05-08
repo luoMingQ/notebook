@@ -154,16 +154,19 @@ public class ControllerUtil {
             Object value = field.get(object);
             if (value != null && value != "") {
                 String name = field.getName();
-                String column = ChangeCharUtil.camelToUnderline(name, 0);
-                if (field.isAnnotationPresent(Like.class)) {
-                    ew.like(column, value.toString());
-                } else if (field.isAnnotationPresent(Gt.class)) {
-                    ew.gt(column, value.toString());
-                } else if (field.isAnnotationPresent(Lt.class)) {
-                    ew.lt(column, value.toString());
+                if (name.equals("serialVersionUID")) {
                 } else {
-                    //默认执行
-                    ew.eq(column, value);
+                    String column = ChangeCharUtil.camelToUnderline(name, 0);
+                    if (field.isAnnotationPresent(Like.class)) {
+                        ew.like(column, value.toString());
+                    } else if (field.isAnnotationPresent(Gt.class)) {
+                        ew.gt(column, value.toString());
+                    } else if (field.isAnnotationPresent(Lt.class)) {
+                        ew.lt(column, value.toString());
+                    } else {
+                        //默认执行
+                        ew.eq(column, value);
+                    }
                 }
             }
         }

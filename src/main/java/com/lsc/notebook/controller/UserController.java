@@ -104,45 +104,50 @@ public class UserController  extends BaseController{
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseBody
     public Result login(@RequestParam("username") String username, @RequestParam("password") String password,HttpServletRequest request) {
-        User user = userService.login(username);
-        if (user != null) {
-            password = StringUtil.StringInMd5(password + user.getSalt());
-        } else {
-            return Result.error("未知账户");
-        }
-        // 从SecurityUtils里边创建一个 subject
-        Subject subject = SecurityUtils.getSubject();
-
-        // 在认证提交前准备 token（令牌）
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        // 执行认证登陆
         try {
-            subject.login(token);
-        } catch (UnknownAccountException uae) {
-            return Result.error("未知账户");
-        } catch (IncorrectCredentialsException ice) {
-            return Result.error("密码不正确");
-        } catch (LockedAccountException lae) {
-            return Result.error("账户已锁定");
-        } catch (ExcessiveAttemptsException eae) {
-            return Result.error("用户名或密码错误次数过多");
-        } catch (AuthenticationException ae) {
-            return Result.error("用户名或密码不正确！");
-        }
-        if (subject.isAuthenticated()) {
-            HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
-            HttpSession session = httpServletRequest.getSession();
-            //把用户信息保存到session
-            session.setAttribute("user", user);
-            String tokenServerKey = TokenTools.createToken(httpServletRequest,"tokenServerKey");
-            Map<String, String> data = new HashMap<>();
-            data.put("tokenServerKey", tokenServerKey);
+            User user = userService.login(username);
+            if (user != null) {
+                password = StringUtil.StringInMd5(password + user.getSalt());
+            } else {
+                return Result.error("未知账户");
+            }
+            // 从SecurityUtils里边创建一个 subject
+            Subject subject = SecurityUtils.getSubject();
 
-            System.out.println(session.getAttribute("tokenServerKey"));
-            return Result.success(data);
-        } else {
-            token.clear();
-            return Result.error("登录失败");
+            // 在认证提交前准备 token（令牌）
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+            // 执行认证登陆
+            try {
+                subject.login(token);
+            } catch (UnknownAccountException uae) {
+                return Result.error("未知账户");
+            } catch (IncorrectCredentialsException ice) {
+                return Result.error("密码不正确");
+            } catch (LockedAccountException lae) {
+                return Result.error("账户已锁定");
+            } catch (ExcessiveAttemptsException eae) {
+                return Result.error("用户名或密码错误次数过多");
+            } catch (AuthenticationException ae) {
+                return Result.error("用户名或密码不正确！");
+            }
+            if (subject.isAuthenticated()) {
+                HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
+                HttpSession session = httpServletRequest.getSession();
+                //把用户信息保存到session
+                session.setAttribute("user", user);
+                String tokenServerKey = TokenTools.createToken(httpServletRequest,"tokenServerKey",user.getUserId()+"",user.getUsername());
+                Map<String, String> data = new HashMap<>();
+                data.put("tokenServerKey", tokenServerKey);
+
+                System.out.println(session.getAttribute("tokenServerKey"));
+                return Result.success(data);
+            } else {
+                token.clear();
+                return Result.error("登录失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error(e.getMessage());
         }
     }
 }
