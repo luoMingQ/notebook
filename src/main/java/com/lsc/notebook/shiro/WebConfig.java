@@ -28,6 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
      * @author yuqingquan
      * @param registry
      */
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginHandlerInterceptor());
     }

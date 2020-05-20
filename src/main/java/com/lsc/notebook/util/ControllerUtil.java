@@ -117,7 +117,9 @@ public class ControllerUtil {
      */
     public static Result listAll(IService service, Object object,QueryWrapper ew, Logger logger) {
         try {
-            getQueryWapper(object, ew);
+            if (object != null) {
+                getQueryWapper(object, ew);
+            }
             List list = service.list(ew);
             return Result.success(list);
         } catch (Exception e) {
@@ -137,7 +139,9 @@ public class ControllerUtil {
     public static Result pageList(IService service, IPage page, QueryWrapper queryWrapper, Logger logger) {
         try {
             Object object = page.getRecords().get(0);//获取参数
-            getQueryWapper(object, queryWrapper);
+            if (object != null) {
+                getQueryWapper(object, queryWrapper);
+            }
             page = service.page(page, queryWrapper);
             return Result.success(page);
         } catch (Exception e) {
@@ -154,8 +158,7 @@ public class ControllerUtil {
             Object value = field.get(object);
             if (value != null && value != "") {
                 String name = field.getName();
-                if (name.equals("serialVersionUID")) {
-                } else {
+                if (!"serialVersionUID".equals(name)) {
                     String column = ChangeCharUtil.camelToUnderline(name, 0);
                     if (field.isAnnotationPresent(Like.class)) {
                         ew.like(column, value.toString());

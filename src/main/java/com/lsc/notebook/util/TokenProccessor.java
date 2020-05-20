@@ -19,10 +19,10 @@ import java.util.Map;
  */
 public class TokenProccessor {
     private TokenProccessor(){}
-    private static final TokenProccessor instance = new TokenProccessor();
+    private static final TokenProccessor INSTANCE = new TokenProccessor();
 
     public static TokenProccessor getInstance() {
-        return instance;
+        return INSTANCE;
     }
     //密钥
     public static final String SECRET = "sdjhakdhajdklsl;o653632";
@@ -62,7 +62,7 @@ public class TokenProccessor {
      */
     public static Map<String, Claim> verifyToken(String token)throws Exception{
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
-        DecodedJWT jwt = null;
+        DecodedJWT jwt;
         try {
             jwt = verifier.verify(token);
         }catch (Exception e){
@@ -74,7 +74,7 @@ public class TokenProccessor {
     /**
      * 解析Token
      * @param token
-     * @return
+     * @return MAP
      */
     public static Map<String, Claim> parseToken(String token){
         DecodedJWT decodedJWT = JWT.decode(token);

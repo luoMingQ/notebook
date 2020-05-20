@@ -29,3 +29,10 @@ logging:
 #文件下载地址
 download:
   filePath: D://files/
+
+es:
+  hostName: localhost
+  transport: 9200
+  cluster:
+    name: elasticsearch
+

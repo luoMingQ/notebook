@@ -2,9 +2,7 @@ package com.lsc.notebook.shiro;
 
 import com.lsc.notebook.entity.User;
 import com.lsc.notebook.service.UserService;
-import com.lsc.notebook.util.StringUtil;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -31,7 +29,7 @@ public class CustomRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        //String username = (String) SecurityUtils.getSubject().getPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         Set<String> stringSet = new HashSet<>();
         stringSet.add("user:show");

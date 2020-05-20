@@ -27,13 +27,15 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         response.setHeader("Access-Control-Max-Age", "86400");
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.setHeader("Content-Type", "text/html;charset=utf-8");
-        if (request.getMethod().equals("OPTIONS")) {
+        String options="OPTIONS";
+        if (options.equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
             return false;
         }
 
         if (StringUtils.isEmpty(tokenstr)) {
-            return true;//没有token
+            //没有token
+            return true;
         }else {
             if (tokenstr.equals(sessionToken)) {
                 return true;
